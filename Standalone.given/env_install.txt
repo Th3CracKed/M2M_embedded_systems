@@ -1,0 +1,15 @@
+Ubuntu 19.10:
+
+sudo apt-get update -y
+
+already compatible with i386 
+
+sudo apt install gcc -y
+
+
+sudo apt install gcc-multilib
+
+sudo apt-get install qemu-system-x86 -y
+
+sudo apt install make
+

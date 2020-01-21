@@ -1,0 +1,29 @@
+
+This is a home-brewed bootloader, working out of the Master Boot Record (MBR).
+This bootloader does not support partitions, it sees the disk as one contiguous
+disk. The loader only needs one sector and it assumes that there is an ELF 
+executable to load from the second sector onward. The ELF will be loaded
+at the address 0x1000000, as a Position Independent Code (PIC) with no
+external dependencies.
+
+=====================================================================
+Master Boot Record
+---------------------------------------------------------------------
+boot.S:
+The startup code is located in 0x7C00, as defined by the convention of 
+the BIOS MBR boot sequence. Notice in the makefile that we tag the MBR
+with the proper 0x55AA tag in the last two bytes.
+
+The stack is set from 0x7C00, growing downward.
+Then, the code switches the processor from 16bit to 32bit mode. 
+And then from real to protected mode, setting up 
+the various segments that are necessary in protected mode.
+Finally, the assembly part ends, calling the C function "diskboot"
+
+---------------------------------------------------------------------
+loader.c:
+This is the C code to read an ELF executable file, from the disk, 
+starting at sector 1. The ELF file sections will be loaded in memory
+where they expect to be and the loader will jump to the entry point.
+
+

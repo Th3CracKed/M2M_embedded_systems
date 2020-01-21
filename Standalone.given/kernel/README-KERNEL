@@ -1,0 +1,18 @@
+
+As a sample, we provide a simple kernel that only supports an echo console
+on the serial line COM1. This is of course just a sample and it is certainly
+not a complete kernel.
+
+A very simple program that sets a simple echo console on COM1.
+Notice that we did not setup interruptions, so this is an active
+polling! Expect to hear your fan ramping up real quick...
+
+crt0.S:
+A minimal C-environment initialization (stack and zero'ed bss).
+
+main.c:
+Just an echo through the serial line.
+
+serial.c:
+Support for serial lines
+

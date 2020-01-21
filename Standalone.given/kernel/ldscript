@@ -1,0 +1,30 @@
+FORCE_COMMON_ALLOCATION
+
+SECTIONS {
+  /*
+   * Gather the sections of code
+   * starting at the address 0x1000000,
+   * since this is the address at which this ELF executable
+   * will be loaded.
+   */
+	.text 0x100000 : {
+		*(.text)
+	}
+ /*
+  * Gather data sections, 
+  * containing initialized symbols
+  */ 
+	.data : {
+		*(.data)
+	}
+  /*
+   * Gather common symbols,
+   * zero-filled at boot time by crt0.S 
+   */
+	.bss : {
+		_bbss = .;
+		*(.bss)
+		*(COMMON)
+		_ebss = .; 
+	}
+}
