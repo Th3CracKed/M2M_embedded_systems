@@ -4,7 +4,6 @@ MBR :
 Est un secteur de démarrage qui contient des données persistante :
 
 - Informations sur l'organization des partitions logiques contenant les systèmes de fichiers. (Table de partitions).
-- Informations sur l'organization des partitions logiques contenant les systèmes de fichiers. (Table de partitions).
 - Code machine qui est chargé dans la ram et executé par le bios et qui permet de charger le system d'exploitation.
 - Une signature appelée aussi 'boot sector signature' qui permet au bios de s'assurer qu'il y a un boot loader qui peut être exécuter en toute sécurité.
 
@@ -74,4 +73,50 @@ Variables automatiques
 • $^: le nom de toutes les dépendances
 • $*: Le nom du pattern matchant la cible dans un pattern statique
 
+For bash check https://devhints.io/bash
+
 Sources : Wikipedia pour les définitions, youtube pour certain details, https://tropars.github.io/teaching/#devops pour makefile
+
+# Debug with gdb:
+
+to include debugging information add -g flag to gcc 
+gcc -g main.c -o main
+to run gdb : 
+gdb main
+run #(run arg1 arg2) to run debug with arguments
+gdb -tui # to run gui on terminal
+b main # set breakpoint
+file main # load symbol table
+
+to bring other file to the terminal gui : 
+list hello.c:5 # load source of hello.c line 5
+
+break main	# Break at the beginning of the main() function
+break 5	# Break at line 5 of the current file
+break hello.c:5	# Break at line 5 of hello.c
+
+backtrace # to show current function call stack
+clear 5 # clear breakpoint line 5
+n #move to next statement 
+c # to continue
+finish # to exit the current functio and continue 
+display variableName # to display a variable called 'variableName' defined in the current scope
+
+watch variableName # print whenever the value changed ( rwatch when variable is read and awatch when variable is read/write)
+set (variableName = 20) # to set variable value at runtime
+jump 4 # like continue but will jump to the passed instruction
+# To attach process: 
+get program pid with ps command
+ps
+gdb
+attach pidNumber
+# Dump Core
+memory snapshot for the time of the crash, to increase the size of ulimit : ulimit -c unlimited 
+
+tui reg # 
+'focus next' or  'focus prev' or 'focus nameOfTheWindow' # To change windows focus on gdb window mode (-tui)
+inheight windowName lineToAdd [ example : winheight src 10 ] # To change the height of window : w
+
+
+Valgrind is a programming tool for memory debugging, memory leak detection, and profiling.
+valgrind ./main

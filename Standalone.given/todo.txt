@@ -1,0 +1,13 @@
+gdb config with vscode
+gdb debug boot.S
+linker elf ?
+
+breakpoint
+charger des symboles
+lire le code du noyau
+
+Il y a plus de sources .c qui sont plus de départ donc il faut regarder ce qui avait au debut
+
+Venir avec des questions
+
+Prochaines fois, on va etendre le noyau
