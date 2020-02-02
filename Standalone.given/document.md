@@ -72,6 +72,7 @@ Variables automatiques
 • $?: le nom de toutes les dépendances qui sont plus récentes que la cible.
 • $^: le nom de toutes les dépendances
 • $*: Le nom du pattern matchant la cible dans un pattern statique
+• $+: comme $^ mais garde les depandances dupliquer et l'ordre de cette duplication
 
 For bash check https://devhints.io/bash
 
@@ -120,3 +121,8 @@ inheight windowName lineToAdd [ example : winheight src 10 ] # To change the he
 
 Valgrind is a programming tool for memory debugging, memory leak detection, and profiling.
 valgrind ./main
+
+bash tricks
+/dev/zero provide infinite stream of zeros
+/dev/null accepts and discards all input; produces no output (always returns an end-of-file indication on a read)
+2>&1 redirects standard error (2) to standard output (1), which then discards it as well since standard output has already been redirected.

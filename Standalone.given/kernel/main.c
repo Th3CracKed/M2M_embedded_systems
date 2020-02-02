@@ -31,6 +31,7 @@ void kmain(void) {
 		int scancode;
     unsigned char c;
 		c=serial_receive(COM1);
+    kprintf("[%c] %d \n",c,(int)c);
 		if (c==13) {
 			c = '\r';
 			serial_send(COM1,c);
@@ -39,4 +40,8 @@ void kmain(void) {
 		} else 
 			serial_send(COM1,c);
   }
+}
+
+void kputchar(char c) {
+  serial_send(COM1, c);
 }

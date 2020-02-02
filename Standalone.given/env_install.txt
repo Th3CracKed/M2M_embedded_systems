@@ -16,7 +16,7 @@ sudo apt install make
 sudo apt  install valgrind -y
 
 vscode 
-c/c++ extension
+c/c++ extension (easier installation via extension tab in vscode ): https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md#configure-vs-codes-debugging-behavior
 .launch.json : 
 {
     // Use IntelliSense to learn about possible attributes.
