@@ -6,7 +6,8 @@ QEMU=qemu-system-i386
 # QEMU Flags
 #   debug: -s -S
 # To set the debug flags, use the -debug argument.
-QFLAGS="-nographic"
+#QFLAGS="-nographic"
+QFLAGS=""
 
 # The GNU compiler
 # If you change this, make sure to change it also

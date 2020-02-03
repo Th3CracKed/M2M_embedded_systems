@@ -21,7 +21,7 @@ int i=0;
 
 
 void kmain(void) {
-	
+	video_write_string(0x2a,"Console greetings!");
   serial_init(COM1);
 
 	serial_send_string(COM1,"\n\rHello!\n\r\n");
@@ -30,18 +30,57 @@ void kmain(void) {
   while(1) {
 		int scancode;
     unsigned char c;
-		c=serial_receive(COM1);
-    kprintf("[%c] %d \n",c,(int)c);
-		if (c==13) {
-			c = '\r';
-			serial_send(COM1,c);
-			c = '\n';
-			serial_send(COM1,c);
-		} else 
-			serial_send(COM1,c);
+    unsigned char c2;
+		c = serial_receive(COM1);
+    //kprintf("[%c] %d \n",c,(int)c);
+    
+    switch (c)
+    {
+    /* Enter */
+    case 13:
+      kprintf("\n");
+      // c2 = '\n';
+      printf("\n");
+      break;
+    /* ctrl + x */
+    case 24:
+      eraseScreen();
+      moveCursorToTopLeft();
+      break;
+    /* Esc */ 
+    case 27:
+    c2 = serial_receive(COM1);
+        /* [ */  
+      if(c2 == 91){
+        kprintf("%c", c);
+        kprintf("%c",c2);
+        kprintf("%c",serial_receive(COM1));
+      }
+      break;
+    /* Delete */
+    case 126:
+      kprintf("%c%c%c%c",27, 91, '1','P');
+      break;
+    /* Delete */
+    case 127:
+      kprintf("%c%c%c%c",27, 91, 68); // Go left
+      kprintf("%c%c%c%c",27, 91, '1','P');
+      break;
+    default:
+      kprintf("%c",c);
+      printf(&c);
+      break;
+    }
   }
 }
 
+void eraseScreen(){
+  kprintf("%c%c%c%c",27, 91, '2', 'J');
+}
+
+void moveCursorToTopLeft(){
+  kprintf("%c%c%s%s",27, 91,"24","F");
+}
 void kputchar(char c) {
   serial_send(COM1, c);
 }

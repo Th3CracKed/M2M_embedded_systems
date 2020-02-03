@@ -78,3 +78,6 @@ void video_write(int color, const char c);
 void kputchar(char c);
 void kprintf(const char *fmt, ...);
 
+void moveCursorToTopLeft();
+void eraseScreen();
+void printf(const char *fmt, ...);

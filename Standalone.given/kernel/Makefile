@@ -26,7 +26,7 @@ all : clean kernel.elf
 # the bootloader itself. Oh well...
 #----------------------------------------------------------------------
 
-kernel.elf: main.o crt0.o serial.o kprintf.o
+kernel.elf: main.o crt0.o serial.o kprintf.o video.o
 	$(LD) -nostdlib -m elf_i386 -e crt0 -Tldscript -o $@ $+
 	echo "  Done."
 
@@ -40,6 +40,9 @@ serial.o: serial.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 kprintf.o: kprintf.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+video.o: video.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 #----------------------------------------------------------------------
 

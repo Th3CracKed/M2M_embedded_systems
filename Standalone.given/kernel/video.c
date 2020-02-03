@@ -38,5 +38,5 @@ void video_write_string( int color, const char *string ) {
  * WARNING: ignore this function until you are told to consider it.
  */
 void printf(const char *fmt, ...) {
-	// NOT YET IMPLEMENTED
+	video_write_string(47, fmt);
 }
