@@ -30,7 +30,6 @@ void kmain(void) {
   while(1) {
 		int scancode;
     unsigned char c;
-    unsigned char c2;
 		c = serial_receive(COM1);
     //kprintf("[%c] %d \n",c,(int)c);
     
@@ -49,12 +48,9 @@ void kmain(void) {
       break;
     /* Esc */ 
     case 27:
-    c2 = serial_receive(COM1);
         /* [ */  
-      if(c2 == 91){
-        kprintf("%c", c);
-        kprintf("%c",c2);
-        kprintf("%c",serial_receive(COM1));
+      if(serial_receive(COM1) == 91){
+        kprintf("%c%c%c",27, 91, serial_receive(COM1));
       }
       break;
     /* Delete */
