@@ -43,24 +43,24 @@ void kmain(void) {
       break;
     /* ctrl + x */
     case 24:
-      eraseScreen();
-      moveCursorToTopLeft();
+      kprintf("%c%c%c%c",27, 91, '2', 'J'); // Erase Screen
+      kprintf("%c%c%s%s",27, 91,"24","F"); // Move Cursor To Top Left
       break;
     /* Esc */ 
     case 27:
         /* [ */  
       if(serial_receive(COM1) == 91){
-        kprintf("%c%c%c",27, 91, serial_receive(COM1));
+        kprintf("%c%c%c",27, 91, serial_receive(COM1)); // send correct arrow
       }
       break;
     /* Delete */
     case 126:
-      kprintf("%c%c%c%c",27, 91, '1','P');
+      kprintf("%c%c%c%c",27, 91, '1','P'); // delete
       break;
-    /* Delete */
+    /* backSpace */
     case 127:
       kprintf("%c%c%c%c",27, 91, 68); // Go left
-      kprintf("%c%c%c%c",27, 91, '1','P');
+      kprintf("%c%c%c%c",27, 91, '1','P'); // delete
       break;
     default:
       kprintf("%c",c);
@@ -70,13 +70,6 @@ void kmain(void) {
   }
 }
 
-void eraseScreen(){
-  kprintf("%c%c%c%c",27, 91, '2', 'J');
-}
-
-void moveCursorToTopLeft(){
-  kprintf("%c%c%s%s",27, 91,"24","F");
-}
 void kputchar(char c) {
   serial_send(COM1, c);
 }
