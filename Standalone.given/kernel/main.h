@@ -76,8 +76,27 @@ void video_write(int color, const char c);
  * by a variable number of arguments, possibly none. 
  */
 void kputchar(char c);
+
 void kprintf(const char *fmt, ...);
 
-void moveCursorToTopLeft();
-void eraseScreen();
+int kvprintf(char const *fmt, void (*func)(char), int radix, va_list ap);
+
+void clearScreen();
+
 void printf(const char *fmt, ...);
+
+void moveLeft();
+
+void moveRight();
+
+void moveUp();
+
+void moveDown();
+
+void moveCursor();
+
+void delete();
+
+void backspace();
+
+void shiftRight();

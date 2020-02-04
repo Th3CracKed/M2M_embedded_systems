@@ -1,0 +1,2 @@
+https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
+https://en.wikipedia.org/wiki/ANSI_escape_code#Terminal_output_sequences

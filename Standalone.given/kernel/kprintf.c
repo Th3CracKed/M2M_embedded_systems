@@ -437,7 +437,9 @@ number:
  * somewhere. this function is called indirectly from kprintf
  * to print each character.
  */
-void kputchar(char c);
+void kputchar(char c) {
+  serial_send(COM1, c);
+}
 
 /*
  * This is to print via the serial line.
