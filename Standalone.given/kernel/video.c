@@ -52,43 +52,43 @@ void printf(const char *fmt, ...) {
 
 void clearScreen() {
   char * startPoint = (char*)VIDEO_BUFFER_ADDRESS;
-  for(int i = 0;i < SCREEN_SIZE*2; i += 2) {
+  for(int i = 0;i < SCREEN_SIZE*2; i++) {
 	*startPoint++ = 0;
   }
   cursor = (char*)VIDEO_BUFFER_ADDRESS;
-  // showBlock();
+  showBlock();
 }
 
 void moveLeft() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset - 2 < 0) return;
-	// deleteBlock();
+	delete();
 	cursor -= 2;
-	// showBlock();
+	showBlock();
 }
 
 void moveRight() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 2 >= 2*SCREEN_SIZE) return;
-	// deleteBlock();
+	delete();
 	cursor += 2;
-	// showBlock();
+	showBlock();
 }
 
 void moveUp() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset < 2*80) return;
-	// deleteBlock();
+	delete();
 	cursor -= 80*2;
-	// showBlock();
+	showBlock();
 }
 
 void moveDown() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 80*2 >= 2*SCREEN_SIZE) return;
-	// deleteBlock();
+	delete();
 	cursor += 80*2;
-	// showBlock();
+	showBlock();
 }
 
 void delete() {
@@ -113,26 +113,18 @@ void backspace() {
 }
 
 void showBlock() {
-	// TODO decale right
+	// shiftRight();
 	*cursor++ = 219;
 	*cursor++ = 15;
 	cursor -= 2;
 }
 
-void deleteBlock() {
-	*cursor++ = 0;
-	*cursor++ = 0;
-	cursor -= 2;
-	// todo Decale left
-}
-
 void shiftRight() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
-	int remainingBufferSize = SCREEN_SIZE*2 - (offset + 2);
+	int remainingBufferSize = SCREEN_SIZE*2 - offset;
 	char *start = cursor;
-	for(int i = remainingBufferSize; i > 0; i -= 2){
-		*(cursor - 2) = *(cursor);
-		cursor -= 2;
+	for(int i = remainingBufferSize; i > 0; i --){
+		*cursor-- = *(cursor - 2);
 	}
 	*cursor = 0;
 	*(cursor + 1) = 0;
