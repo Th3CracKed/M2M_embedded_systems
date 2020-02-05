@@ -36,7 +36,7 @@ void video_write_string( int color, const char *string ) {
 
 void putchar(char c) {
 	video_write(15, c);
-	showBlock();
+	addCursorIndicator();
 }
 
 /*
@@ -56,41 +56,54 @@ void clearScreen() {
 	*startPoint++ = 0;
   }
   cursor = (char*)VIDEO_BUFFER_ADDRESS;
-  showBlock();
+  addCursorIndicator();
 }
 
 void moveLeft() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset - 2 < 0) return;
-	delete();
-	cursor -= 2;
-	showBlock();
+	char bkColor = *(++cursor); // save cursor color
+	*(cursor) = 15; // remove bk color (cursor)
+  	cursor--; // reset position
+	cursor -= 2; // move cursor left
+	*(++cursor) = bkColor; // restor color (cursor)
+	cursor--; // reset position
 }
 
 void moveRight() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 2 >= 2*SCREEN_SIZE) return;
-	delete();
-	cursor += 2;
-	showBlock();
+	char bkColor = *(++cursor); // save cursor color
+	*(cursor) = 15; // remove bk color (cursor)
+  	cursor--; // reset position
+	cursor += 2; // move cursor right
+	*(++cursor) = bkColor; // restor color (cursor)
+	cursor--; // reset position
 }
 
 void moveUp() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset < 2*80) return;
-	delete();
-	cursor -= 80*2;
-	showBlock();
+	char bkColor = *(++cursor); // save cursor color
+	*(cursor) = 15; // remove bk color (cursor)
+  	cursor--; // reset position
+	cursor -= 80*2; // move cursor up
+	*(++cursor) = bkColor; // restor color (cursor)
+	cursor--; // reset position
 }
 
 void moveDown() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 80*2 >= 2*SCREEN_SIZE) return;
-	delete();
-	cursor += 80*2;
-	showBlock();
+	char bkColor = *(++cursor); // save cursor color
+	*(cursor) = 15; // remove bk color (cursor)
+  	cursor--; // reset position
+	cursor += 80*2; // move cursor down
+	*(++cursor) = bkColor; // restor color (cursor)
+	cursor--; // reset position
 }
 
+// TODO manage cursor
 void delete() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	int remainingBufferSize = SCREEN_SIZE*2 - (offset + 2);
@@ -102,31 +115,24 @@ void delete() {
 	*cursor = 0;
 	*(cursor + 1) = 0;
 	cursor = start;
+	addCursorIndicator();
 }
-
+ // TODO manage cursor
 void backspace() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset >= 2) {
+		deleteCursorIndicator();
 		cursor -= 2;
 		delete();
 	}
 }
 
-void showBlock() {
-	// shiftRight();
-	*cursor++ = 219;
-	*cursor++ = 15;
-	cursor -= 2;
+void addCursorIndicator(){
+	*(++cursor) = 232; // TODO change color
+  	cursor--;
 }
 
-void shiftRight() {
-	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
-	int remainingBufferSize = SCREEN_SIZE*2 - offset;
-	char *start = cursor;
-	for(int i = remainingBufferSize; i > 0; i --){
-		*cursor-- = *(cursor - 2);
-	}
-	*cursor = 0;
-	*(cursor + 1) = 0;
-	cursor = start;
+void deleteCursorIndicator(){
+	*(++cursor) = 0;
+  	cursor--;
 }

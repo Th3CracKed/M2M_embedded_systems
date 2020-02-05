@@ -99,4 +99,6 @@ void delete();
 
 void backspace();
 
-void shiftRight();
+void addCursorIndicator();
+
+void deleteCursorIndicator();
