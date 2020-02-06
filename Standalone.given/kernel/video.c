@@ -59,70 +59,63 @@ void clearScreen() {
   addCursorIndicator();
 }
 
+void goLeft() {
+	cursor -= 2;
+}
+
 void moveLeft() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset - 2 < 0) return;
-	char bkColor = *(++cursor); // save cursor color
-	*(cursor) = 15; // remove bk color (cursor)
-  	cursor--; // reset position
-	cursor -= 2; // move cursor left
-	*(++cursor) = bkColor; // restor color (cursor)
-	cursor--; // reset position
+	shiftCursorIndicator(goLeft);
+}
+
+void goRight() {
+	cursor += 2;
 }
 
 void moveRight() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 2 >= 2*SCREEN_SIZE) return;
-	char bkColor = *(++cursor); // save cursor color
-	*(cursor) = 15; // remove bk color (cursor)
-  	cursor--; // reset position
-	cursor += 2; // move cursor right
-	*(++cursor) = bkColor; // restor color (cursor)
-	cursor--; // reset position
+	shiftCursorIndicator(goRight);
+}
+
+void goUp() {
+	cursor -= 80*2;
 }
 
 void moveUp() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset < 2*80) return;
-	char bkColor = *(++cursor); // save cursor color
-	*(cursor) = 15; // remove bk color (cursor)
-  	cursor--; // reset position
-	cursor -= 80*2; // move cursor up
-	*(++cursor) = bkColor; // restor color (cursor)
-	cursor--; // reset position
+	shiftCursorIndicator(goUp);
+}
+
+void goDown() {
+	cursor += 80*2;
 }
 
 void moveDown() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset + 80*2 >= 2*SCREEN_SIZE) return;
-	char bkColor = *(++cursor); // save cursor color
-	*(cursor) = 15; // remove bk color (cursor)
-  	cursor--; // reset position
-	cursor += 80*2; // move cursor down
-	*(++cursor) = bkColor; // restor color (cursor)
-	cursor--; // reset position
+	shiftCursorIndicator(goDown);
 }
 
-// TODO manage cursor
 void delete() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	int remainingBufferSize = SCREEN_SIZE*2 - (offset + 2);
 	char *start = cursor;
-	for(int i = 0; i < remainingBufferSize; i += 2){
-		*cursor = *(cursor + 2);
-		cursor += 2;
+	for(int i = 0; i < remainingBufferSize; i++){
+		*cursor++ = *(cursor + 2);
 	}
 	*cursor = 0;
 	*(cursor + 1) = 0;
 	cursor = start;
 	addCursorIndicator();
 }
- // TODO manage cursor
+
 void backspace() {
 	int offset = cursor - (char*)VIDEO_BUFFER_ADDRESS;
 	if(offset >= 2) {
-		deleteCursorIndicator();
-		cursor -= 2;
+		shiftCursorIndicator(goLeft);
 		delete();
 	}
 }
@@ -132,7 +125,12 @@ void addCursorIndicator(){
   	cursor--;
 }
 
-void deleteCursorIndicator(){
-	*(++cursor) = 0;
-  	cursor--;
+
+void shiftCursorIndicator(void (*cursorAction)()){
+	char bkColor = *(++cursor); // save cursor color
+	*(cursor) = 15; // remove bk color (cursor)
+  	cursor--; // reset position
+	cursorAction();
+	*(++cursor) = bkColor; // restor color (cursor)
+	cursor--; // reset position
 }

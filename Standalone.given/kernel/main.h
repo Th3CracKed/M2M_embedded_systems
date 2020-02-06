@@ -85,11 +85,19 @@ void clearScreen();
 
 void printf(const char *fmt, ...);
 
+void goLeft();
+
 void moveLeft();
+
+void goRight();
 
 void moveRight();
 
+void goUp();
+
 void moveUp();
+
+void goDown();
 
 void moveDown();
 
@@ -102,3 +110,5 @@ void backspace();
 void addCursorIndicator();
 
 void deleteCursorIndicator();
+
+void shiftCursorIndicator(void (*func)());

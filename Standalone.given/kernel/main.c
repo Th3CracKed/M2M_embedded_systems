@@ -26,12 +26,12 @@ void kmain(void) {
 	serial_send_string(COM1,"\n\rHello!\n\r\n");
   serial_send_string(COM1,"This is a simple echo console... please type something.\n\r\n\r");
 
+  addCursorIndicator();
   while(1) {
 		int scancode;
     unsigned char c;
 		c = serial_receive(COM1);
     //kprintf("[%c] %d \n",c,(int)c);
-    
     switch (c)
     {
     /* Enter */
